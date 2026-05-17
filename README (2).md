@@ -37,30 +37,28 @@ The paper reports 58–61% win rate using Pythia-2.8B (17× larger model). Our 5
 ```
 DPO-Implementation/
 │
-├── dpo_training.py          ← Main training notebook (all 10 cells)
-├── README.md                ← This file
+├── session1.ipynb          ← Training notebook (Steps 0 → 600)
+├── session2.ipynb          ← Resume training (Steps 600 → 1200)
+├── session3.ipynb          ← Resume training (Steps 1200 → 1800)
+├── session4.ipynb          ← Resume training (Steps 1800 → 2400)
+├── session5.ipynb          ← Final training (Steps 2400 → 3000)
 │
-├── outputs/
-│   ├── full_history.json           ← Training history (all 3000 steps)
-│   ├── progress_step3000.png       ← Training curves plot
-│   ├── final_qualitative.json      ← SFT vs DPO response comparison
-│   └── zipped/
-│       ├── checkpoint_step_600.zip
-│       ├── checkpoint_step_1200.zip
-│       ├── checkpoint_step_1800.zip
-│       ├── checkpoint_step_2400.zip
-│       └── checkpoint_step_3000.zip  ← Final trained model weights
+├── README.md               ← Project documentation
 │
-└── results/
-    ├── plot1_training_curves.png
-    ├── plot2_beta_ablation.png
-    └── plot3_reward_kl_frontier.png
+└── outputs/
+    └── checkpoints/
+        ├── checkpoint_step_600.zip
+        ├── checkpoint_step_1200.zip
+        ├── checkpoint_step_1800.zip
+        ├── checkpoint_step_2400.zip
+        └── checkpoint_step_3000.zip   ← Final trained model
 ```
 
 ---
 
 ## How to Run — Step by Step
-
+ 1. Open the required session notebook in Kaggle
+   (session1.ipynb → session5.ipynb)
 ### Requirements
 
 ```bash
@@ -77,15 +75,17 @@ subprocess.check_call(["pip", "install", "-q", "--upgrade",
 
 ### Quick Start (Single Session — 600 steps)
 
-1. Open `dpo_training.py` in a Kaggle notebook
-2. Run Cell 1 (install) → Restart kernel
-3. Run all remaining cells
-4. Training runs 600 steps (~16 minutes on T4)
-5. Checkpoint ZIP saved to Output tab automatically
+
+1. Open the required session notebook in Kaggle
+2. Run Cell 1 (install dependencies)
+3. Restart kernel
+4. Run all remaining cells
+5. Training checkpoint automatically saves to:
+   outputs/checkpoints/
 
 ### Full Training (3000 steps — 5 Sessions)
 
-Training is split across 5 Kaggle sessions because the free tier has session time limits. The notebook **automatically detects** which session it is and resumes from the correct checkpoint.
+Training is split across 5 Kaggle sessions because the free tier has session time limits. Training is divided into 5 separate notebooks because Kaggle free GPU sessions have runtime limits. Each notebook resumes from the previous checkpoint.
 
 ---
 
@@ -94,27 +94,25 @@ Training is split across 5 Kaggle sessions because the free tier has session tim
 ### Session 1 — Steps 0 → 600
 
 ```
-1. Open notebook in Kaggle → Run All
-2. Cell 5 prints: "SESSION 1 — Starting from scratch"
-3. Training runs 600 steps (~16 min)
-4. At the end: checkpoint_step_600.zip saved to Output tab
-5. Go to: File → Save Version → Save & Run All
-6. Wait for green checkmark (~20 min)
-7. Download checkpoint_step_600.zip from Output tab
+
+1.Open: session1.ipynb
+2.Training runs Steps 0 → 600
+3. At the end: checkpoint_step_600.zip saved to Output tab
+4. Go to: File → Save Version → Save & Run All
+5. Wait for green checkmark (~20 min)
+6. Download checkpoint_step_600.zip from Output tab
 ```
 
 ### Session 2 — Steps 600 → 1200
 
 ```
-1. Go to kaggle.com/datasets → New Dataset
-2. Upload checkpoint_step_600.zip
-3. Name it: dpo-step-600
-4. Open same notebook in NEW Kaggle session
-5. Add Data → dpo-step-600
-6. Run All → Cell 5 automatically prints:
+1.Open: session2.ipynb
+2.Add checkpoint_step_600.zip as Kaggle Dataset
+3.Training resumes from Step 600
+64 Run All → Cell 5 automatically prints:
    "SESSION 2 — Resuming from step 600"
-7. Training runs steps 601-1200
-8. Download checkpoint_step_1200.zip
+5. Training runs steps 601-1200
+6. Download checkpoint_step_1200.zip
 ```
 
 ### Session 3 — Steps 1200 → 1800
